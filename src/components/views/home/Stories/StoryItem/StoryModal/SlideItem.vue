@@ -1,8 +1,8 @@
 <template>
-  <img
+  <div
     v-if="!isVideo"
-    :src="item.desktopImage"
-    class="w-full h-full object-contain"
+    class="w-full h-full object-contain image"
+    :style="getImage"
   />
   <video v-else :src="item.desktopImage" autoplay class=""></video>
 </template>
@@ -16,7 +16,19 @@ const { item } = defineProps({
     required: true,
   },
 });
+const getImage = computed(
+  () => `
+  background-image: url(${item.desktopImage});
+`
+);
 const isVideo = computed(() => item.type === "video");
 </script>
 
-<style></style>
+<style scoped>
+.image {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+</style>

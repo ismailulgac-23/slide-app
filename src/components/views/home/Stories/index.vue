@@ -2,9 +2,16 @@
   <div class="w-screen h-screen overflow-hidden">
     <div class="px-5 w-full h-full flex items-center justify-center">
       <div
-        class="px-3 py-3 w-full flex items-center max-w-3xl mx-auto overflow-auto bg-slate-100 rounded-lg"
+        id="slider"
+        class="cursor-grab px-3 py-3 w-full flex items-center max-w-3xl mx-auto overflow-x-auto overflow-y-hidden hide-scrollbar bg-slate-100 rounded-lg relative"
       >
-        <StoryItem v-for="story in stories" :key="story.id" :story="story" />
+        <StoryItem
+          :isGrabbing="isGrabbing"
+          v-for="(story, idx) in state.stories"
+          :key="story.id"
+          :story="story"
+          :idx="idx"
+        />
       </div>
     </div>
   </div>
@@ -13,31 +20,38 @@
 <script setup>
 import { inject, onMounted, ref } from "vue";
 import StoryItem from "./StoryItem/index.vue";
-const $axios = inject("$axios");
+const { useStoriesStore } = inject("$store");
+const { state, actions } = useStoriesStore();
 
-const stories = ref([]);
-const loading = ref(false);
-const error = ref(false);
+const isGrabbing = ref(false);
 
-const fetchStories = () => {
-  $axios
-    .get("users/stories")
-    .then(({ data }) => {
-      stories.value = data.data;
-      error.value = false;
-    })
-    .catch(() => {
-      error.value = true;
-      stories.value = [];
-    })
-    .finally(() => {
-      loading.value = false;
-    });
+const makeScroll = () => {
+  const slider = document.getElementById("slider");
+  let startX;
+  let scrollLeft;
+
+  slider.addEventListener("mousedown", (e) => {
+    isGrabbing.value = true;
+    startX = e.pageX;
+    scrollLeft = slider.scrollLeft;
+  });
+
+  slider.addEventListener("mouseleave", () => (isGrabbing.value = false));
+
+  slider.addEventListener("mouseup", () => (isGrabbing.value = false));
+
+  slider.addEventListener("mousemove", (e) => {
+    if (!isGrabbing.value) return;
+    e.preventDefault();
+    slider.scrollLeft = scrollLeft - (e.pageX - startX) * 2;
+  });
 };
 
 onMounted(() => {
-  fetchStories();
+  makeScroll();
+});
+
+onMounted(() => {
+  actions.fetchStories();
 });
 </script>
-
-<style></style>
