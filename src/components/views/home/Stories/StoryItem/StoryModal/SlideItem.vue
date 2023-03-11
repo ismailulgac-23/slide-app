@@ -4,12 +4,7 @@
     :src="item.desktopImage"
     class="w-full h-full object-contain"
   />
-  <video
-    v-else
-    :src="item.desktopImage"
-    autoplay
-    class="w-full h-full object-contain"
-  ></video>
+  <video v-else :src="item.desktopImage" autoplay class=""></video>
 </template>
 
 <script setup>

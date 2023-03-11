@@ -1,5 +1,9 @@
 <template>
-  <Modal class="select-none">
+  <Modal
+    class="select-none"
+    v-touch:swipe.left="next"
+    v-touch:swipe.right="prev"
+  >
     <Navigation :next="next" :prev="prev" :close="toggle" />
     <template v-for="(item, idx) in items" :key="idx">
       <transition name="out-in">

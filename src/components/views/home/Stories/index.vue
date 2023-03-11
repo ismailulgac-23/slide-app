@@ -1,8 +1,8 @@
 <template>
   <div class="w-screen h-screen overflow-hidden">
-    <div class="w-full h-full flex items-center justify-center">
+    <div class="px-5 w-full h-full flex items-center justify-center">
       <div
-        class="px-3 py-3 w-full flex items-center max-w-5xl bg-slate-100 rounded-lg"
+        class="px-3 py-3 w-full flex items-center max-w-3xl mx-auto overflow-auto bg-slate-100 rounded-lg"
       >
         <StoryItem v-for="story in stories" :key="story.id" :story="story" />
       </div>

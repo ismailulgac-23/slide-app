@@ -1,7 +1,7 @@
 <template>
   <div
     @click="toggle"
-    class="w-[90px] select-none h-[90px] cursor-pointer flex items-center justify-center flex-col gap-1"
+    class="shrink-0 max-w-[90px] w-full select-none h-[90px] cursor-pointer flex items-center justify-center flex-col gap-1"
   >
     <img
       :src="story.image"

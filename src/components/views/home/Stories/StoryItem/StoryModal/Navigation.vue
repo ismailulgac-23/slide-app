@@ -1,22 +1,18 @@
 <template>
   <div
     @click="close"
-    class="z-50 cursor-pointer bg-white absolute right-0 top-0 w-[50px] close-icon-height flex items-center justify-center"
+    class="z-50 cursor-pointer bg-transparent absolute right-2 top-2 w-[20px] h-[20px] flex items-center justify-center"
   >
     <CloseIcon />
   </div>
   <div
     @click="prev"
-    class="z-50 cursor-pointer bg-black absolute left-0 top-0 w-[50px] next-icon-height flex items-center justify-center"
-  >
-    <LeftIcon />
-  </div>
+    class="z-50 cursor-pointer bg-transparent absolute left-0 top-0 w-[100px] h-full flex items-center justify-center"
+  />
   <div
     @click="next"
-    class="z-40 cursor-pointer bg-black absolute top-0 right-0 w-[50px] h-full flex items-center justify-center"
-  >
-    <RightIcon />
-  </div>
+    class="z-40 cursor-pointer bg-transparent absolute top-0 right-0 w-[100px] h-full flex items-center justify-center"
+  />
 </template>
 
 <script setup>
@@ -40,9 +36,6 @@ defineProps({
 </script>
 
 <style scoped>
-.close-icon-height {
-  height: 50px;
-}
 .next-icon-height {
   height: calc(100% - 50px);
 }
