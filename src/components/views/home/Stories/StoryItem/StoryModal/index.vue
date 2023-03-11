@@ -6,7 +6,7 @@
   >
     <Navigation :next="next" :prev="prev" :close="toggle" />
     <template v-for="(item, idx) in items" :key="idx">
-      <transition name="out-in">
+      <transition name="fade">
         <SlideItem v-if="currentIndex === idx" :item="item" />
       </transition>
     </template>
