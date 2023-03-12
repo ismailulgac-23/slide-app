@@ -55,6 +55,7 @@ export const actions = {
       state.currentSlideItemIndex = state.currentSlideItemIndex + 1;
       return;
     }
+    state.currentSlideItemIndex = 0;
     mutations.setCurrentStoryModalIndex(null, "inc");
   },
   fetchStories() {

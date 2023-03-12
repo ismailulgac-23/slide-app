@@ -1,6 +1,8 @@
 <template>
   <div @click="onOpenStory" :class="getClasses">
-    <img :src="story.image" :class="getImageClasses" />
+    <div :class="getGradientClasses">
+      <img :src="story.image" :class="getImageClasses" />
+    </div>
     <h1 class="text-xs text-center title-text">{{ story.title }}</h1>
   </div>
   <StoryModal v-if="isShowModal" :items="story.items" />
@@ -37,6 +39,13 @@ const isShowModal = computed(
   () => storiesStore.state.currentStoryModalIndex === idx
 );
 
+const getGradientClasses = computed(() => [
+  "rounded-full p-[3px]",
+  {
+    notSeen: !isStorySeen.value,
+  },
+]);
+
 const getClasses = computed(() => [
   "shrink-0 max-w-[90px] w-full select-none flex items-center justify-center flex-col gap-1",
   {
@@ -48,10 +57,10 @@ const getClasses = computed(() => [
 const isStorySeen = ref(getters.getStoryIsSeen(idx));
 
 const getImageClasses = computed(() => [
-  "border-2 w-[70px] h-[70px] object-cover rounded-full",
+  "object-cover rounded-full image",
   {
-    "border-slate-300": isStorySeen.value,
-    notSeen: !isStorySeen.value,
+    "border-4 border-slate-300 w-[70px] h-[70px]": isStorySeen.value,
+    "w-full h-full": !isStorySeen.value,
   },
 ]);
 
@@ -71,6 +80,10 @@ const onOpenStory = () => {
   -webkit-box-orient: vertical;
 }
 .notSeen {
-  border-color: deeppink;
+  width: 70px;
+  height: 70px;
+  background: radial-gradient(rgba(0, 0, 0, 0.15) 60%, transparent 0),
+    radial-gradient(white 65%, transparent 0),
+    linear-gradient(to top right, orange, deeppink);
 }
 </style>
