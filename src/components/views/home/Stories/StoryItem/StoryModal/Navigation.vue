@@ -32,8 +32,7 @@ defineProps({
 });
 const { useStoriesStore } = inject("$store");
 const storiesStore = useStoriesStore();
-const onClose = () =>
-  storiesStore.mutations.setCurrentStoryModalIndex(null, false);
+const onClose = () => storiesStore.mutations.setCurrentStoryModalIndex(null);
 </script>
 
 <style scoped>

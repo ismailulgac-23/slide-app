@@ -1,9 +1,6 @@
 <template>
   <div @click="onOpenStory" :class="getClasses">
-    <img
-      :src="story.image"
-      class="w-[70px] h-[70px] object-cover rounded-full"
-    />
+    <img :src="story.image" :class="getImageClasses" />
     <h1 class="text-xs text-center title-text">{{ story.title }}</h1>
   </div>
   <StoryModal v-if="isShowModal" :items="story.items" />
@@ -39,15 +36,24 @@ const isShowModal = computed(
 );
 
 const getClasses = computed(() => [
-  "shrink-0 max-w-[90px] w-full select-none flex items-center justify-center flex-col px-3 py-2 gap-1",
+  "shrink-0 max-w-[90px] w-full select-none flex items-center justify-center flex-col gap-1",
   {
     "cursor-pointer": !isGrabbing,
     "cursor-grab": isGrabbing,
   },
 ]);
 
+const getImageClasses = computed(() => [
+  "border-2 w-[70px] h-[70px] object-cover rounded-full",
+  {
+    "border-slate-300": story.isSeen,
+    notSeen: !story.isSeen,
+  },
+]);
+
 const onOpenStory = () => {
-  storiesStore.mutations.setCurrentStoryModalIndex(idx, false);
+  storiesStore.mutations.setCurrentStoryModalIndex(idx);
+  story.isSeen = true;
 };
 </script>
 
@@ -59,5 +65,8 @@ const onOpenStory = () => {
   -webkit-line-clamp: 1;
   line-clamp: 1;
   -webkit-box-orient: vertical;
+}
+.notSeen {
+  border-color: deeppink;
 }
 </style>
