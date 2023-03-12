@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-10 top-12 left-0 absolute bg-yellow">
+  <div class="w-full h-10 top-0 left-0 absolute bg-yellow">
     <div class="flex items-center justify-between p-2 gap-3">
       <template v-for="(item, idx) in currentStoryItems" :key="idx">
         <TimelineItem />

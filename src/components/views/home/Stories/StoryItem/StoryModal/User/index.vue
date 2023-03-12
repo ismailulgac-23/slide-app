@@ -1,5 +1,5 @@
 <template>
-  <div class="z-50 absolute top-0 left-0 w-full px-2 py-2.5">
+  <div class="z-50 absolute top-4 left-0 w-full px-2 py-2.5">
     <div class="flex items-center justify-between w-full">
       <div class="flex items-center justify-center gap-3">
         <img

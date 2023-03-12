@@ -4,8 +4,8 @@
     v-touch:swipe.left="actions.next"
     v-touch:swipe.right="actions.prev"
   >
-    <User />
     <Timeline />
+    <User />
     <Navigation />
     <template v-for="(item, idx) in currentStoryItems" :key="idx">
       <div
