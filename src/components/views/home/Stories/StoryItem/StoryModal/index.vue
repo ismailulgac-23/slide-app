@@ -10,7 +10,7 @@
     <template v-for="(item, idx) in currentStoryItems" :key="idx">
       <div
         :class="[
-          'transition-all duration-500',
+          'transition-all duration-75',
           {
             'w-full h-full': currentSlideItemIndex === idx,
             'w-0': currentSlideItemIndex !== idx,

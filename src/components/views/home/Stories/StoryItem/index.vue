@@ -5,7 +5,9 @@
     </div>
     <h1 class="text-xs text-center title-text">{{ story.title }}</h1>
   </div>
-  <StoryModal v-if="isShowModal" :items="story.items" />
+  <Transition>
+    <StoryModal v-if="isShowModal" :items="story.items" />
+  </Transition>
 </template>
 
 <script setup>
@@ -85,5 +87,14 @@ const onOpenStory = () => {
   background: radial-gradient(rgba(0, 0, 0, 0.15) 60%, transparent 0),
     radial-gradient(white 65%, transparent 0),
     linear-gradient(to top right, orange, deeppink);
+}
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
