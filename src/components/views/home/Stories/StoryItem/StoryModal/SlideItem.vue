@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full bg-[#292730]">
+  <div class="w-full h-full bg-[#292730] flex items-center justify-center">
     <div
       v-if="!isVideo"
       class="w-full h-full object-contain image"
