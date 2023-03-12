@@ -1,7 +1,7 @@
 <template>
   <div
     @click="onClose"
-    class="z-50 cursor-pointer bg-transparent absolute right-2 top-2 w-[20px] h-[20px] flex items-center justify-center"
+    class="z-50 cursor-pointer bg-transparent absolute right-2 top-5 w-[20px] h-[20px] flex items-center justify-center"
   >
     <CloseIcon />
   </div>
