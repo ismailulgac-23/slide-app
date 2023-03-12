@@ -7,9 +7,17 @@
     <Timeline />
     <Navigation />
     <template v-for="(item, idx) in currentStoryItems" :key="idx">
-      <transition name="fade">
-        <SlideItem v-if="state.currentSlideItemIndex === idx" :item="item" />
-      </transition>
+      <div
+        :class="[
+          'transition-all duration-500',
+          {
+            'w-full h-full': currentSlideItemIndex === idx,
+            'w-0': currentSlideItemIndex !== idx,
+          },
+        ]"
+      >
+        <SlideItem v-if="currentSlideItemIndex === idx" :item="item" />
+      </div>
     </template>
   </Modal>
 </template>
@@ -28,10 +36,14 @@ export default {
     const storiesStore = useStoriesStore();
 
     const currentStoryItems = ref(storiesStore.getters.getCurrentStoryItems);
+    const currentSlideItemIndex = ref(
+      storiesStore.getters.getCurrentSlideItemIndex
+    );
 
     return {
       ...storiesStore,
       currentStoryItems,
+      currentSlideItemIndex,
     };
   },
   props: {
@@ -49,4 +61,18 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+</style>

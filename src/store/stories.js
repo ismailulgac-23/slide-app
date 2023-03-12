@@ -15,15 +15,17 @@ const mutations = {
   setLoading: (payload) => (state.loading = payload),
   setError: (payload) => (state.error = payload),
   setCurrentStoryModalIndex(payload = null, type = null) {
-    if (type == "inc") {
-      state.currentStoryModalIndex = state.currentStoryModalIndex + 1;
-      return;
-    }
-    if (type == "dec") {
-      state.currentStoryModalIndex = state.currentStoryModalIndex - 1;
-      return;
-    }
-    state.currentStoryModalIndex = payload;
+    setTimeout(() => {
+      if (type == "inc") {
+        state.currentStoryModalIndex = state.currentStoryModalIndex + 1;
+        return;
+      }
+      if (type == "dec") {
+        state.currentStoryModalIndex = state.currentStoryModalIndex - 1;
+        return;
+      }
+      state.currentStoryModalIndex = payload;
+    }, 100);
   },
 };
 export const getters = {
@@ -32,12 +34,13 @@ export const getters = {
     () => state.stories[state.currentStoryModalIndex].items
   ),
   getStories: computed(() => state.stories),
+  getCurrentSlideItemIndex: computed(() => state.currentSlideItemIndex),
 };
 export const actions = {
   prev: () => {
     actions.seeStory(null, true);
     if (state.currentSlideItemIndex != 0) {
-      state.currentSlideItemIndex -= 1;
+      state.currentSlideItemIndex = state.currentSlideItemIndex - 1;
       return;
     }
     mutations.setCurrentStoryModalIndex(null, "dec");
@@ -45,8 +48,11 @@ export const actions = {
 
   next: () => {
     actions.seeStory();
-    if (state.currentSlideItemIndex < getters.getCurrentStoryItems.length - 1) {
-      state.currentSlideItemIndex += 1;
+    if (
+      state.currentSlideItemIndex <
+      state.stories[state.currentStoryModalIndex].items.length - 1
+    ) {
+      state.currentSlideItemIndex = state.currentSlideItemIndex + 1;
       return;
     }
     mutations.setCurrentStoryModalIndex(null, "inc");

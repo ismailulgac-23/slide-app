@@ -7,11 +7,11 @@
   </div>
   <div
     @click="actions.prev"
-    class="z-50 cursor-pointer bg-transparent absolute left-0 top-0 w-[100px] h-full flex items-center justify-center"
+    class="z-50 cursor-pointer bg-transparent absolute left-0 top-0 w-1/2 h-full flex items-center justify-center"
   />
   <div
     @click="actions.next"
-    class="z-40 cursor-pointer bg-transparent absolute top-0 right-0 w-[100px] h-full flex items-center justify-center"
+    class="z-40 cursor-pointer bg-transparent absolute top-0 right-0 w-1/2 h-full flex items-center justify-center"
   />
 </template>
 
