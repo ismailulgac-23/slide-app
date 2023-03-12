@@ -6,11 +6,11 @@
     <CloseIcon />
   </div>
   <div
-    @click="prev"
+    @click="actions.prev"
     class="z-50 cursor-pointer bg-transparent absolute left-0 top-0 w-[100px] h-full flex items-center justify-center"
   />
   <div
-    @click="next"
+    @click="actions.next"
     class="z-40 cursor-pointer bg-transparent absolute top-0 right-0 w-[100px] h-full flex items-center justify-center"
   />
 </template>
@@ -20,18 +20,9 @@ import LeftIcon from "../../../../../../components/shared/icons/LeftIcon.vue";
 import RightIcon from "../../../../../../components/shared/icons/RightIcon.vue";
 import CloseIcon from "../../../../../../components/shared/icons/CloseIcon.vue";
 import { inject } from "vue";
-defineProps({
-  next: {
-    type: Function,
-    required: true,
-  },
-  prev: {
-    type: Function,
-    required: true,
-  },
-});
 const { useStoriesStore } = inject("$store");
 const storiesStore = useStoriesStore();
+const { actions } = storiesStore;
 const onClose = () => storiesStore.mutations.setCurrentStoryModalIndex(null);
 </script>
 

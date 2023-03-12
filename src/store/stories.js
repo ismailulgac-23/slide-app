@@ -1,6 +1,7 @@
-import { reactive } from "vue";
+import { computed, reactive } from "vue";
 import axios from "../services/axios";
 const state = reactive({
+  currentSlideItemIndex: 0,
   currentStoryModalIndex: null,
   stories: [],
   loading: false,
@@ -25,8 +26,31 @@ const mutations = {
     state.currentStoryModalIndex = payload;
   },
 };
-
+export const getters = {
+  getStoryIsSeen: (idx) => computed(() => state.stories[idx].isSeen),
+  getCurrentStoryItems: computed(
+    () => state.stories[state.currentStoryModalIndex].items
+  ),
+  getStories: computed(() => state.stories),
+};
 export const actions = {
+  prev: () => {
+    actions.seeStory(null, true);
+    if (state.currentSlideItemIndex != 0) {
+      state.currentSlideItemIndex -= 1;
+      return;
+    }
+    mutations.setCurrentStoryModalIndex(null, "dec");
+  },
+
+  next: () => {
+    actions.seeStory();
+    if (state.currentSlideItemIndex < getters.getCurrentStoryItems.length - 1) {
+      state.currentSlideItemIndex += 1;
+      return;
+    }
+    mutations.setCurrentStoryModalIndex(null, "inc");
+  },
   fetchStories() {
     mutations.setLoading(true);
     axios
@@ -45,9 +69,21 @@ export const actions = {
         mutations.setLoading(false);
       });
   },
-  seeStory(storyId) {
-    state.stories = state.stories.map((item) => {
-      if (item.id === storyId) {
+  seeStory(idx = null, isPrev = false) {
+    function getIndex() {
+      if (idx !== null) {
+        return idx;
+      } else if (!state.currentStoryModalIndex) {
+        return 0;
+      } else if (isPrev) {
+        return state.currentStoryModalIndex - 1;
+      } else {
+        return state.currentStoryModalIndex;
+      }
+    }
+    var _idx = getIndex();
+    state.stories = state.stories.map((item, index) => {
+      if (_idx === index) {
         return { ...item, isSeen: true };
       }
       return { ...item };
@@ -59,4 +95,5 @@ export default () => ({
   state,
   mutations,
   actions,
+  getters,
 });

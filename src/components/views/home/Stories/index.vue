@@ -4,11 +4,12 @@
       <div
         id="slider"
         class="cursor-grab px-3 py-3 w-full flex items-center max-w-3xl mx-auto overflow-x-auto overflow-y-hidden hide-scrollbar bg-slate-100 rounded-lg relative"
+        v-show="stories.length"
       >
         <StoryItem
           :isGrabbing="isGrabbing"
-          v-for="(story, idx) in state.stories"
-          :key="story.id"
+          v-for="(story, idx) in stories"
+          :key="idx"
           :story="story"
           :idx="idx"
         />
@@ -21,8 +22,8 @@
 import { inject, onMounted, ref } from "vue";
 import StoryItem from "./StoryItem/index.vue";
 const { useStoriesStore } = inject("$store");
-const { state, actions } = useStoriesStore();
-
+const { actions, getters } = useStoriesStore();
+const stories = ref(getters.getStories);
 const isGrabbing = ref(false);
 
 const makeScroll = () => {
@@ -43,7 +44,7 @@ const makeScroll = () => {
   slider.addEventListener("mousemove", (e) => {
     if (!isGrabbing.value) return;
     e.preventDefault();
-    slider.scrollLeft = scrollLeft - (e.pageX - startX) * 2;
+    slider.scrollLeft = scrollLeft - (e.pageX - startX) * 1;
   });
 };
 

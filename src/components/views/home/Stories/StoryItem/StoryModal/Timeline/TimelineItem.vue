@@ -9,13 +9,6 @@
 
 <script setup>
 import { computed, inject, ref, watch, watchEffect } from "vue";
-
-const {} = defineProps({
-  item: {
-    type: Object,
-    required: true,
-  },
-});
 </script>
 
 <style scoped></style>

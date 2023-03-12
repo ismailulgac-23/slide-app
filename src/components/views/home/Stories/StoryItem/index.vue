@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { computed, inject, ref } from "vue";
+import { computed, inject, ref, watch, watchEffect } from "vue";
 import StoryModal from "./StoryModal/index.vue";
 const { useStoriesStore } = inject("$store");
 const { story, idx, isGrabbing } = defineProps({
@@ -27,6 +27,8 @@ const { story, idx, isGrabbing } = defineProps({
 
 const storiesStore = useStoriesStore();
 
+const { getters } = storiesStore;
+
 const getTitle = computed(() =>
   story.title.length > 9 ? story.title.slice(0, 9) + "..." : story.title
 );
@@ -43,17 +45,19 @@ const getClasses = computed(() => [
   },
 ]);
 
+const isStorySeen = ref(getters.getStoryIsSeen(idx));
+
 const getImageClasses = computed(() => [
   "border-2 w-[70px] h-[70px] object-cover rounded-full",
   {
-    "border-slate-300": story.isSeen,
-    notSeen: !story.isSeen,
+    "border-slate-300": isStorySeen.value,
+    notSeen: !isStorySeen.value,
   },
 ]);
 
 const onOpenStory = () => {
+  storiesStore.actions.seeStory(idx);
   storiesStore.mutations.setCurrentStoryModalIndex(idx);
-  story.isSeen = true;
 };
 </script>
 
