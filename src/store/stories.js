@@ -15,6 +15,12 @@ const mutations = {
   setLoading: (payload) => (state.loading = payload),
   setError: (payload) => (state.error = payload),
   setCurrentStoryModalIndex(payload = null, type = null) {
+    if (payload == null) {
+      document.querySelector("body").classList.remove("overflow-hidden");
+    } else {
+      document.querySelector("body").classList.add("overflow-hidden");
+    }
+
     if (type == "inc") {
       state.currentStoryModalIndex = state.currentStoryModalIndex + 1;
       return;
@@ -23,10 +29,6 @@ const mutations = {
       state.currentStoryModalIndex = state.currentStoryModalIndex - 1;
       return;
     }
-    if (payload == null) {
-      document.querySelector("body").classList.remove("overflow-hidden");
-    }
-    document.querySelector("body").classList.add("overflow-hidden");
     state.currentStoryModalIndex = payload;
   },
 };
