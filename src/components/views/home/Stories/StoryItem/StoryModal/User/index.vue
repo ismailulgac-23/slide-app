@@ -3,10 +3,12 @@
     <div class="flex items-center justify-between w-full">
       <div class="flex items-center justify-center gap-3">
         <img
-          src="https://files.shipentegra.com/assets/stories/small_images/61cb265d8c9ae090f45e2d310d17476e.jpg"
+          :src="getCurrentStoryInfo.image"
           class="w-[35px] h-[35px] rounded-full object-cover"
         />
-        <h1 class="font-medium text-white text-sm">PrinWork</h1>
+        <h1 class="font-medium text-white text-sm">
+          {{ getCurrentStoryInfo.title }}
+        </h1>
       </div>
       <div @click="onClose">
         <CloseIcon />
@@ -22,11 +24,15 @@ export default {
   setup() {
     const { useStoriesStore } = inject("$store");
     const storiesStore = useStoriesStore();
-    const { actions } = storiesStore;
+    const { actions, getters } = storiesStore;
+
+    const { getCurrentStoryInfo } = getters;
+
     const onClose = () =>
       storiesStore.mutations.setCurrentStoryModalIndex(null);
     return {
       onClose,
+      getCurrentStoryInfo,
     };
   },
   components: { CloseIcon },

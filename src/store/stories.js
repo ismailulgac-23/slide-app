@@ -39,6 +39,10 @@ export const getters = {
   ),
   getStories: computed(() => state.stories),
   getCurrentSlideItemIndex: computed(() => state.currentSlideItemIndex),
+  getCurrentStoryInfo: computed(() => ({
+    image: state.stories[state.currentStoryModalIndex].image,
+    title: state.stories[state.currentStoryModalIndex].title,
+  })),
 };
 export const actions = {
   prev: () => {
