@@ -15,17 +15,19 @@ const mutations = {
   setLoading: (payload) => (state.loading = payload),
   setError: (payload) => (state.error = payload),
   setCurrentStoryModalIndex(payload = null, type = null) {
-    setTimeout(() => {
-      if (type == "inc") {
-        state.currentStoryModalIndex = state.currentStoryModalIndex + 1;
-        return;
-      }
-      if (type == "dec") {
-        state.currentStoryModalIndex = state.currentStoryModalIndex - 1;
-        return;
-      }
-      state.currentStoryModalIndex = payload;
-    }, 100);
+    if (type == "inc") {
+      state.currentStoryModalIndex = state.currentStoryModalIndex + 1;
+      return;
+    }
+    if (type == "dec") {
+      state.currentStoryModalIndex = state.currentStoryModalIndex - 1;
+      return;
+    }
+    if (payload == null) {
+      document.querySelector("body").classList.remove("overflow-hidden");
+    }
+    document.querySelector("body").classList.add("overflow-hidden");
+    state.currentStoryModalIndex = payload;
   },
 };
 export const getters = {
