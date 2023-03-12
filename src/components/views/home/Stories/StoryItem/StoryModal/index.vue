@@ -4,6 +4,7 @@
     v-touch:swipe.left="actions.next"
     v-touch:swipe.right="actions.prev"
   >
+    <User />
     <Timeline />
     <Navigation />
     <template v-for="(item, idx) in currentStoryItems" :key="idx">
@@ -26,6 +27,7 @@
 import { inject, onMounted, provide, ref, watch, watchEffect } from "vue";
 import Modal from "../../../../../shared/Modal.vue";
 import Navigation from "./Navigation.vue";
+import User from "./User/index.vue";
 import Timeline from "./Timeline/index.vue";
 import SlideItem from "./SlideItem.vue";
 
@@ -57,6 +59,7 @@ export default {
     Modal,
     Navigation,
     SlideItem,
+    User,
   },
 };
 </script>
