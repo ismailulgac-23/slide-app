@@ -4,11 +4,11 @@
       <div
         id="slider"
         class="cursor-grab px-3 py-3 w-full flex items-center max-w-3xl mx-auto overflow-x-auto overflow-y-hidden hide-scrollbar bg-slate-100 rounded-lg relative"
-        v-show="stories.length"
+        v-show="getStories.length"
       >
         <StoryItem
           :isGrabbing="isGrabbing"
-          v-for="(story, idx) in stories"
+          v-for="(story, idx) in getStories"
           :key="idx"
           :story="story"
           :idx="idx"
@@ -17,42 +17,50 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { inject, onMounted, ref } from "vue";
+<script>
 import StoryItem from "./StoryItem/index.vue";
-const { useStoriesStore } = inject("$store");
-const { actions, getters } = useStoriesStore();
-const stories = ref(getters.getStories);
-const isGrabbing = ref(false);
+import { mapActions, mapGetters } from "vuex";
+export default {
+  data: () => ({
+    isGrabbing: false,
+  }),
+  computed: {
+    ...mapGetters({
+      getStories: "story/getStories",
+    }),
+  },
+  methods: {
+    ...mapActions({
+      fetchStories: "story/fetchStories",
+    }),
+    makeScroll() {
+      const slider = document.getElementById("slider");
+      let startX;
+      let scrollLeft;
 
-const makeScroll = () => {
-  const slider = document.getElementById("slider");
-  let startX;
-  let scrollLeft;
+      slider.addEventListener("mousedown", (e) => {
+        this.isGrabbing = true;
+        startX = e.pageX;
+        scrollLeft = slider.scrollLeft;
+      });
 
-  slider.addEventListener("mousedown", (e) => {
-    isGrabbing.value = true;
-    startX = e.pageX;
-    scrollLeft = slider.scrollLeft;
-  });
+      slider.addEventListener("mouseleave", () => (this.isGrabbing = false));
 
-  slider.addEventListener("mouseleave", () => (isGrabbing.value = false));
+      slider.addEventListener("mouseup", () => (this.isGrabbing = false));
 
-  slider.addEventListener("mouseup", () => (isGrabbing.value = false));
-
-  slider.addEventListener("mousemove", (e) => {
-    if (!isGrabbing.value) return;
-    e.preventDefault();
-    slider.scrollLeft = scrollLeft - (e.pageX - startX) * 1;
-  });
+      slider.addEventListener("mousemove", (e) => {
+        if (!this.isGrabbing) return;
+        e.preventDefault();
+        slider.scrollLeft = scrollLeft - (e.pageX - startX) * 1;
+      });
+    },
+  },
+  mounted() {
+    this.fetchStories();
+    this.makeScroll();
+  },
+  components: {
+    StoryItem,
+  },
 };
-
-onMounted(() => {
-  makeScroll();
-});
-
-onMounted(() => {
-  actions.fetchStories();
-});
 </script>

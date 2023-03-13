@@ -8,6 +8,6 @@ import Vue3TouchEvents from "vue3-touch-events";
 
 const app = createApp(Home);
 app.use(Vue3TouchEvents);
-app.provide("$store", store);
+app.use(store);
 app.provide("$axios", axios);
 app.mount("#app");

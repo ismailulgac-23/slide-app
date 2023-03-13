@@ -1,19 +1,21 @@
 <template>
   <div class="w-full h-10 top-0 left-0 absolute bg-yellow">
     <div class="flex items-center justify-between p-2 gap-3">
-      <template v-for="(item, idx) in currentStoryItems" :key="idx">
+      <template v-for="(item, idx) in getCurrentStoryItems" :key="idx">
         <TimelineItem />
       </template>
     </div>
   </div>
 </template>
-
-<script setup>
-import { inject, ref } from "vue";
+<script>
+import { mapGetters } from "vuex";
 import TimelineItem from "./TimelineItem.vue";
-const { useStoriesStore } = inject("$store");
-const { getters } = useStoriesStore();
-const currentStoryItems = ref(getters.getCurrentStoryItems);
+export default {
+  components: {
+    TimelineItem,
+  },
+  computed: mapGetters({
+    getCurrentStoryItems: "story/getCurrentStoryItems",
+  }),
+};
 </script>
-
-<style></style>

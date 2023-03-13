@@ -1,69 +1,60 @@
 <template>
   <Modal
     class="select-none"
-    v-touch:swipe.left="actions.next"
-    v-touch:swipe.right="actions.prev"
+    v-touch:swipe.left="nextStorySlide"
+    v-touch:swipe.right="prevStorySlide"
   >
     <Timeline />
     <User />
     <Navigation />
-    <template v-for="(item, idx) in currentStoryItems" :key="idx">
+    <template v-for="(item, idx) in getCurrentStoryItems" :key="idx">
       <div
         :class="[
           'transition-all duration-75',
           {
-            'w-full h-full': currentSlideItemIndex === idx,
-            'w-0': currentSlideItemIndex !== idx,
+            'w-full h-full': getCurrentSlideIndex === idx,
+            'w-0': getCurrentSlideIndex !== idx,
           },
         ]"
       >
-        <SlideItem v-if="currentSlideItemIndex === idx" :item="item" />
+        <SlideItem
+          v-if="getCurrentSlideIndex === idx"
+          :item="item"
+          :idx="idx"
+        />
       </div>
     </template>
   </Modal>
 </template>
-
 <script>
-import { inject, onMounted, provide, ref, watch, watchEffect } from "vue";
 import Modal from "../../../../../shared/Modal.vue";
 import Navigation from "./Navigation.vue";
 import User from "./User/index.vue";
 import Timeline from "./Timeline/index.vue";
 import SlideItem from "./SlideItem.vue";
-
+import { mapActions, mapGetters } from "vuex";
 export default {
-  setup({ items }) {
-    const { useStoriesStore } = inject("$store");
-
-    const storiesStore = useStoriesStore();
-
-    const currentStoryItems = ref(storiesStore.getters.getCurrentStoryItems);
-    const currentSlideItemIndex = ref(
-      storiesStore.getters.getCurrentSlideItemIndex
-    );
-
-    return {
-      ...storiesStore,
-      currentStoryItems,
-      currentSlideItemIndex,
-    };
+  computed: {
+    ...mapGetters({
+      getCurrentSlideIndex: "story/getCurrentSlideIndex",
+      getCurrentStoryItems: "story/getCurrentStoryItems",
+    }),
   },
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
+  methods: {
+    ...mapActions({
+      nextStorySlide: "story/nextStorySlide",
+      prevStorySlide: "story/prevStorySlide",
+    }),
   },
   components: {
-    Timeline,
     Modal,
     Navigation,
-    SlideItem,
     User,
+    Timeline,
+    SlideItem,
   },
 };
 </script>
-
 <style scoped>
 .slide-fade-enter-active {
   transition: all 0.3s ease-out;

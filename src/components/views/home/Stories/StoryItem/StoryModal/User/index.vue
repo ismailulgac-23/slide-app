@@ -10,33 +10,31 @@
           {{ getCurrentStoryInfo.title }}
         </h1>
       </div>
-      <div @click="onClose">
+      <div @click="onCloseModal">
         <CloseIcon />
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import CloseIcon from "../../../../../../shared/icons/CloseIcon.vue";
-import { inject } from "vue";
+import { mapGetters, mapMutations } from "vuex";
 export default {
-  setup() {
-    const { useStoriesStore } = inject("$store");
-    const storiesStore = useStoriesStore();
-    const { actions, getters } = storiesStore;
-
-    const { getCurrentStoryInfo } = getters;
-
-    const onClose = () =>
-      storiesStore.mutations.setCurrentStoryModalIndex(null);
-    return {
-      onClose,
-      getCurrentStoryInfo,
-    };
+  computed: {
+    ...mapGetters({
+      getCurrentStoryInfo: "story/getCurrentStoryInfo",
+    }),
   },
-  components: { CloseIcon },
+  methods: {
+    ...mapMutations({
+      setCurrentStoryIndex: "story/setCurrentStoryIndex",
+    }),
+    onCloseModal() {
+      this.setCurrentStoryIndex({ payload: null, type: null });
+    },
+  },
+  components: {
+    CloseIcon,
+  },
 };
 </script>
-
-<style></style>

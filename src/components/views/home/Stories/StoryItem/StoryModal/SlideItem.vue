@@ -1,38 +1,42 @@
 <template>
   <div class="w-full h-full flex items-center justify-center">
     <div
-      v-if="!isVideo"
+      v-if="!getIsVideo"
       class="w-full h-full object-contain image"
       :style="getImage"
     />
-    <video v-else :src="item.desktopImage" autoplay class="mx-auto"></video>
+    <video v-else :src="item.image" autoplay class="mx-auto"></video>
     <div
-      v-if="isLinkShow"
+      v-if="item.link != null"
       class="absolute bottom-5 w-full px-2 py-1 bg-[#0000009a] z-50 grid place-items-center"
     >
-      <a :href="item.url" target="_blank" class="text-white">
-        {{ item.linkTitle }}
+      <a :href="item.link.url" target="_blank" class="text-white">
+        {{ item.link.title }}
       </a>
     </div>
   </div>
 </template>
-
-<script setup>
-import { computed, onMounted } from "vue";
-
-const { item } = defineProps({
-  item: {
-    type: Object,
-    required: true,
+<script>
+import { mapActions } from "vuex";
+export default {
+  props: ["item", "idx"],
+  methods: {
+    ...mapActions({
+      seeStorySlide: "story/seeStorySlide",
+    }),
   },
-});
-const getImage = computed(
-  () => `
-  background-image: url(${item.desktopImage});
-`
-);
-const isVideo = computed(() => item.type === "video");
-const isLinkShow = computed(() => item.link !== null && item.url !== null);
+  mounted() {
+    this.seeStorySlide(this.idx);
+  },
+  computed: {
+    getImage() {
+      return `background-image: url(${this.item.image});`;
+    },
+    getIsVideo() {
+      return this.item.storyType === "video";
+    },
+  },
+};
 </script>
 
 <style scoped>

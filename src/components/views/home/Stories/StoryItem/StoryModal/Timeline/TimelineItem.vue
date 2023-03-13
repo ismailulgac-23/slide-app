@@ -7,8 +7,4 @@
   </div>
 </template>
 
-<script setup>
-import { computed, inject, ref, watch, watchEffect } from "vue";
-</script>
-
 <style scoped></style>
