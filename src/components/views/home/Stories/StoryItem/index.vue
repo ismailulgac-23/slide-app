@@ -1,5 +1,5 @@
 <template>
-  <div @click="onOpenStory" :class="getClasses">
+  <div @click.stop="onOpenStory" :class="getClasses">
     <div :class="getGradientClasses">
       <img :src="story.image" :class="getImageClasses" />
     </div>
@@ -44,6 +44,7 @@ export default {
     getClasses() {
       return [
         "shrink-0 max-w-[90px] w-full select-none flex items-center justify-center flex-col gap-1",
+        { "cursor-pointer": this.isGrabbing },
       ];
     },
     getStorySeen() {

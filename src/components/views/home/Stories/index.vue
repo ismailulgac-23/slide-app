@@ -3,7 +3,7 @@
     <div class="px-5 w-full h-full flex items-center justify-center">
       <div
         id="slider"
-        class="cursor-grab px-3 py-3 w-full flex items-center max-w-3xl mx-auto overflow-x-auto overflow-y-hidden hide-scrollbar bg-slate-100 rounded-lg relative"
+        :class="getStoriesSliderClasses"
         v-show="getStories.length"
       >
         <StoryItem
@@ -28,6 +28,15 @@ export default {
     ...mapGetters({
       getStories: "story/getStories",
     }),
+    getStoriesSliderClasses() {
+      return [
+        "px-3 py-3 w-full flex items-center max-w-3xl mx-auto overflow-x-auto overflow-y-hidden hide-scrollbar bg-slate-100 rounded-lg relative",
+        {
+          "cursor-grab": !this.isGrabbing,
+          "cursor-grabbing": this.isGrabbing,
+        },
+      ];
+    },
   },
   methods: {
     makeScroll() {

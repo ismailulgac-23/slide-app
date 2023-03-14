@@ -1,29 +1,58 @@
 <template>
   <div class="flex-1 rounded-full bg-[#ffffff80] h-1">
-    <div
-      class="with-anim transition-all duration-1000 h-full bg-purple-500"
-      :style="getTimelineStyles"
-    />
+    <div :class="getTimelineClasses" :style="getTimelineStyles" />
   </div>
 </template>
 <script>
-import { mapGetters} from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 export default {
+  data: () => ({
+    isFinished: false,
+    timeout: null,
+  }),
   props: {
     duration: {
       type: Number,
-      required :true
-    }
+      required: true,
+    },
   },
   computed: {
+    ...mapGetters({
+      getCurrentSlideIndex: "story/getCurrentSlideIndex",
+    }),
+    getIsFinished() {
+      return this.isFinished;
+    },
     getTimelineStyles() {
       return `animation-duration: ${this.duration}ms`;
-    }
+    },
+    getTimelineClasses() {
+      return [
+        "transition-all duration-1000 h-full bg-white",
+        {
+          "with-anim": !this.getIsFinished,
+        },
+      ];
+    },
+  },
+  methods: {
+    ...mapActions({
+      nextStorySlide: "story/nextStorySlide",
+    }),
+    watchStory() {
+      this.timeout = setTimeout(() => {
+        this.nextStorySlide();
+        this.isFinished = true;
+      }, this.duration);
+    },
   },
   mounted() {
-    console.log("timeline item");
-  }
-}
+    this.watchStory();
+  },
+  beforeUnmount() {
+    clearTimeout(this.timeout);
+  },
+};
 </script>
 <style scoped>
 .with-anim {

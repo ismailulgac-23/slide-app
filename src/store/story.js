@@ -1,5 +1,5 @@
 import { parseStoryModels } from "../constants/helpers";
-import {storiesData} from '../constants/data';
+import { storiesData } from "../constants/data";
 const state = () => ({
   currentSlideIndex: 0,
   currentStoryIndex: null,
