@@ -2,7 +2,7 @@
   <div class="w-full h-10 top-0 left-0 absolute bg-yellow">
     <div class="flex items-center justify-between p-2 gap-3">
       <template v-for="(item, idx) in getCurrentStoryItems" :key="idx">
-        <TimelineItem />
+        <TimelineItem :duration="item.duration" />
       </template>
     </div>
   </div>

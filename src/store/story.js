@@ -1,10 +1,9 @@
 import { parseStoryModels } from "../constants/helpers";
-import axios from "../services/axios";
-
+import {storiesData} from '../constants/data';
 const state = () => ({
   currentSlideIndex: 0,
   currentStoryIndex: null,
-  stories: [],
+  stories: parseStoryModels(storiesData),
 });
 const getters = {
   getStories(state) {
@@ -73,11 +72,6 @@ const actions = {
       return;
     }
     commit("setCurrentStoryIndex", { payload: null, type: "dec" });
-  },
-  fetchStories({ commit }) {
-    axios.get("users/stories").then(({ data }) => {
-      commit("setStories", parseStoryModels(data.data));
-    });
   },
   seeStorySlide({ state, getters, commit }, index) {
     const { getCurrentStoryIndex } = getters;

@@ -30,9 +30,6 @@ export default {
     }),
   },
   methods: {
-    ...mapActions({
-      fetchStories: "story/fetchStories",
-    }),
     makeScroll() {
       const slider = document.getElementById("slider");
       let startX;
@@ -56,7 +53,6 @@ export default {
     },
   },
   mounted() {
-    this.fetchStories();
     this.makeScroll();
   },
   components: {
