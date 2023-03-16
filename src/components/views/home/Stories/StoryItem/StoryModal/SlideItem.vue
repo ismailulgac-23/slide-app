@@ -5,7 +5,14 @@
       class="w-full h-full object-contain image"
       :style="getImage"
     />
-    <video v-else :src="item.image" autoplay class="mx-auto"></video>
+    <video
+      v-else
+      :src="item.image"
+      webkit-playsinline
+      playsinline
+      autoplay
+      class="mx-auto"
+    ></video>
     <div
       v-if="item.link != null"
       class="absolute bottom-5 w-full px-2 py-1 bg-[#0000009a] z-50 grid place-items-center"
