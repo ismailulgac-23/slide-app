@@ -5,7 +5,7 @@
     </div>
     <h1 class="text-xs text-center title-text">{{ story.title }}</h1>
   </div>
-  <Transition>
+  <Transition class="bg-black w-full h-full">
     <StoryModal v-if="getShowModal" />
   </Transition>
 </template>
@@ -84,7 +84,7 @@ export default {
 }
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 1s ease;
 }
 
 .v-enter-from,

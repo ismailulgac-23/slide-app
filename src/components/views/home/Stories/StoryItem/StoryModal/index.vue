@@ -8,15 +8,7 @@
     <User />
     <Navigation />
     <template v-for="(item, idx) in getCurrentStoryItems" :key="idx">
-      <div
-        :class="[
-          'transition-all duration-100',
-          {
-            'w-full h-full': getCurrentSlideIndex === idx,
-            'w-0 h-0': getCurrentSlideIndex !== idx,
-          },
-        ]"
-      >
+      <div :class="getContainerClasses">
         <SlideItem
           v-if="getCurrentSlideIndex === idx"
           :item="item"
@@ -39,6 +31,15 @@ export default {
       getCurrentSlideIndex: "story/getCurrentSlideIndex",
       getCurrentStoryItems: "story/getCurrentStoryItems",
     }),
+    getContainerClasses() {
+      return [
+        "transition-all duration-100",
+        {
+          "w-full h-full": getCurrentSlideIndex === idx,
+          "w-0 h-0": getCurrentSlideIndex !== idx,
+        },
+      ];
+    },
   },
   methods: {
     ...mapActions({
